@@ -92,7 +92,7 @@ public class Monde extends JFrame {
 
             try {
                 while (true) {
-                    sleep(1);
+                    sleep(10);
                     ballcount.setText("Number of balls: " + Integer.toString(listeBalle.size() + 1));
                     b.setLocation(b.getPosX(width), b.getPosY(height));
 
