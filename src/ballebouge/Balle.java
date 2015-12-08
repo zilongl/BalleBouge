@@ -11,82 +11,44 @@ import javax.swing.JComponent;
 
 /**
  *
- * @author ZiLong
+ * @author ZiLong Ismael
  */
 public class Balle extends JComponent{
     private int posx;
     private int posy;
-    private boolean droite=true;
-    private boolean bas=true;
+    private Color ballColor;
+    private final int ballSize = 50;
+
     @Override
     public void paintComponent(Graphics g)
     {
-        g.setColor(Color.MAGENTA);
-       g.fillOval(0, 0, 50, 50);
+        g.setColor(ballColor);
+        g.fillOval(0, 0, ballSize, ballSize);
     }
-    
+
+    public static Color randomColor() {
+      return new Color(getInt255(), getInt255(), getInt255());
+    }
+
+    public static int getInt255() {
+      return (int) (Math.random()*255);
+    }
+
     public Balle(int x, int y)
     {
         posx=x;
         posy=y;
-        this.setSize(55,55);
+        this.setSize(ballSize,ballSize);
+        ballColor = randomColor();
     }
 
-    public int getPosx() {
-        return posx;
+    public int getPosX(int screenWidth) {
+        int sw = screenWidth - ballSize;
+        return (posx = (posx + 1) % (2 * sw)) > sw ? (sw << 1) - posx : posx;
     }
 
-    public void setPosx(int posx) {
-        this.posx = posx;
+    public int getPosY(int screenHeight) {
+      int sh = screenHeight - ballSize - 30; //30 pixel for the win title bar
+      return (posy = (posy + 1) % (2 * sh)) > sh ? (sh << 1) - posy : posy;
     }
-
-    public int getPosy() {
-        return posy;
-    }
-
-    public void setPosy(int posy) {
-        this.posy = posy;
-    }
-
-    public boolean isDroite() {
-        return droite;
-    }
-
-    public void setDroite(boolean droite) {
-        this.droite = droite;
-    }
-
-    public boolean isBas() {
-        return bas;
-    }
-
-    public void setBas(boolean bas) {
-        this.bas = bas;
-    }
-    
-
-    public void bougeX()
-    {
-        if (droite) {
-            posx=posx+1;
-        }
-        else
-            posx=posx-1;
-    }
-    public void bougeY()
-    {   
-        if (bas) {
-            posy=posy+1;
-        }
-        else
-              posy=posy-1;
-    }
-    
-    public void bouger()
-    {
-        bougeX();
-        bougeY();
-    }
-    }
-
-
+}

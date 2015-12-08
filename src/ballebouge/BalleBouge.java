@@ -18,5 +18,5 @@ public class BalleBouge {
         // TODO code application logic here
         Monde m=new Monde();
     }
-    
+
 }
