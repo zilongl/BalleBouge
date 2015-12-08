@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ballebouge;
 
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.lang.Thread;
 import java.util.ArrayList;
 
-
 /**
  *
- * @author ZiLong
+ * @author ZiLong Ismael
  */
 public class Monde extends JFrame {
 
@@ -26,26 +19,45 @@ public class Monde extends JFrame {
     JPanel pan = new JPanel();
     Balle b = new Balle(width/3, height/2);
     ArrayList<Balle> listeBalle = new ArrayList();
+    JLabel ballcount = new JLabel("Number of balls: 1");
+    CreateBallThread thread = new CreateBallThread(pan, listeBalle);
+    JFrame frame = this;
 
     public Monde() {
+        thread.start();
         pan.add(b);
         b.setLocation(b.getPosX(width), b.getPosY(height));
         pan.setLayout(null);
         pan.setBackground(Color.green);
         pan.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                Balle temp = new Balle((int) e.getX(), (int) e.getY());
-                listeBalle.add(temp);
-                pan.add(temp);
-
+            public void mousePressed(MouseEvent e) {
+              thread.addBalls(e);
+            }
+            public void mouseReleased(MouseEvent e) {
+              thread.stopAddingBalls();
             }
         });
+        pan.addMouseMotionListener(new MouseMotionAdapter() {
+          public void mouseDragged(MouseEvent e) {
+            thread.changeMouseEvent(e);
+          }
+        });
+        this.addComponentListener(new ComponentAdapter() {
+          public void componentResized(ComponentEvent e) {
+            Rectangle r = frame.getBounds();
+            width = r.width;
+            height = r.height;
+          }
+        });
+        pan.add(ballcount);
+        ballcount.setLocation(0,0);
+        ballcount.setSize(150,10);
         this.add(pan);
         this.setVisible(true);
         this.setSize(width, height);
         this.setTitle("Ballos II");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        t.run();
+        t.start();
 
     }
 
@@ -55,21 +67,17 @@ public class Monde extends JFrame {
 
             try {
                 while (true) {
-                    sleep(5);
-
+                    sleep(1);
+                    ballcount.setText("Number of balls: " + Integer.toString(listeBalle.size() + 1));
                     b.setLocation(b.getPosX(width), b.getPosY(height));
 
                     if (!listeBalle.isEmpty()) {
                         for (int i = 0; i < listeBalle.size(); i++) {
-
                             listeBalle.get(i).setLocation(listeBalle.get(i).getPosX(width), listeBalle.get(i).getPosY(height));
-
                         }
                     }
-
                     invalidate();
                     repaint();
-
                 }
 
             } catch (InterruptedException ex) {

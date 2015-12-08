@@ -7,7 +7,7 @@ package ballebouge;
 
 /**
  *
- * @author ZiLong
+ * @author ZiLong Ismael
  */
 public class BalleBouge {
 
