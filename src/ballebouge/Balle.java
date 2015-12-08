@@ -44,11 +44,13 @@ public class Balle extends JComponent{
 
     public int getPosX(int screenWidth) {
         int sw = screenWidth - ballSize;
+        if (sw <= 0) sw=1;
         return (posx = (posx + 1) % (2 * sw)) > sw ? (sw << 1) - posx : posx;
     }
 
     public int getPosY(int screenHeight) {
       int sh = screenHeight - ballSize - 30; //30 pixel for the win title bar
+      if (sh <= 0) sh=1;
       return (posy = (posy + 1) % (2 * sh)) > sh ? (sh << 1) - posy : posy;
     }
 }

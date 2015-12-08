@@ -23,11 +23,17 @@ public class CreateBallThread extends Thread {
   public void run() {
     while (true) {
       if (threadStarted) {
-
-        Balle temp = new Balle((int) mouseevent.getX(), (int) mouseevent.getY());
-        listeBalle.add(temp);
-        temp.setLocation(mouseevent.getX(), mouseevent.getY());
+        int x = 0;
+        int y = 0;
+        try {
+          x = (int) mouseevent.getX();
+          y = (int) mouseevent.getY();
+        } catch (Exception e) {
+        }
+        Balle temp = new Balle(x, y);
+        temp.setLocation(x, y);
         pan.add(temp);
+        listeBalle.add(temp);
       }
       try {
         Thread.sleep(60);
@@ -37,6 +43,9 @@ public class CreateBallThread extends Thread {
   }
   public void addBalls(MouseEvent e) {
     this.mouseevent = e;
+    this.threadStarted = true;
+  }
+  public void addBalls() {
     this.threadStarted = true;
   }
   public void changeMouseEvent(MouseEvent e) {

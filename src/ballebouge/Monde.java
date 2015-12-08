@@ -22,6 +22,7 @@ public class Monde extends JFrame {
     JLabel ballcount = new JLabel("Number of balls: 1");
     CreateBallThread thread = new CreateBallThread(pan, listeBalle);
     JFrame frame = this;
+    MouseEvent currentPos;
 
     public Monde() {
         thread.start();
@@ -29,6 +30,8 @@ public class Monde extends JFrame {
         b.setLocation(b.getPosX(width), b.getPosY(height));
         pan.setLayout(null);
         pan.setBackground(Color.green);
+        this.setFocusable(true);
+        this.requestFocusInWindow();
         pan.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
               thread.addBalls(e);
@@ -41,6 +44,9 @@ public class Monde extends JFrame {
           public void mouseDragged(MouseEvent e) {
             thread.changeMouseEvent(e);
           }
+          public void mouseMoved(MouseEvent e) {
+            currentPos = e;
+          }
         });
         this.addComponentListener(new ComponentAdapter() {
           public void componentResized(ComponentEvent e) {
@@ -49,13 +55,32 @@ public class Monde extends JFrame {
             height = r.height;
           }
         });
+        this.addKeyListener(new KeyAdapter() {
+          public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+              ArrayList<Balle> listeTemp = new ArrayList(listeBalle);
+              listeBalle.clear();
+              for (int i=0; i<listeTemp.size(); i++) {
+                pan.remove(listeTemp.get(i));
+              }
+            }
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+              thread.addBalls(currentPos);
+            }
+          }
+          public void keyReleased(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+              thread.stopAddingBalls();
+            }
+          }
+        });
         pan.add(ballcount);
         ballcount.setLocation(0,0);
         ballcount.setSize(150,10);
         this.add(pan);
         this.setVisible(true);
         this.setSize(width, height);
-        this.setTitle("Ballos II");
+        this.setTitle("Ballos IV");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         t.start();
 
