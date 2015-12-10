@@ -14,6 +14,7 @@ public class CreateBallThread extends Thread {
   public MouseEvent mouseevent;
   private JPanel pan;
   private ArrayList<Balle> listeBalle;
+  private boolean createOneBall = true;
 
   public CreateBallThread(JPanel pan, ArrayList<Balle> listeBalle) {
     this.pan = pan;
@@ -23,6 +24,7 @@ public class CreateBallThread extends Thread {
   public void run() {
     while (true) {
       if (threadStarted) {
+
         int x = 0;
         int y = 0;
         try {
@@ -34,9 +36,15 @@ public class CreateBallThread extends Thread {
         temp.setLocation(x, y);
         pan.add(temp);
         listeBalle.add(temp);
+        try{
+          if (createOneBall)
+            Thread.sleep(500);
+        } catch(Exception Ole){  
+        }
+        this.createOneBall = false; 
       }
       try {
-        Thread.sleep(60);
+        Thread.sleep(100);
       } catch (Exception e) {
       }
     }
@@ -44,6 +52,7 @@ public class CreateBallThread extends Thread {
   public void addBalls(MouseEvent e) {
     this.mouseevent = e;
     this.threadStarted = true;
+    this.createOneBall = true;
   }
   public void addBalls() {
     this.threadStarted = true;
