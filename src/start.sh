@@ -1,2 +1,2 @@
-javac ballebouge/*.java
-java ballebouge/BalleBouge
+#!/bin/bash
+javac ballebouge/*.java && java ballebouge/BalleBouge
