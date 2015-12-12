@@ -22,9 +22,11 @@ public class Monde extends JFrame {
     JLabel ballcount = new JLabel("Number of balls: 1");
     CreateBallThread thread = new CreateBallThread(pan, listeBalle);
     JFrame frame = this;
+
     MouseEvent currentPos;
 
     public Monde() {
+
         thread.start();
         pan.add(b);
         b.setLocation(b.getPosX(width), b.getPosY(height));
@@ -50,9 +52,8 @@ public class Monde extends JFrame {
         });
         this.addComponentListener(new ComponentAdapter() {
           public void componentResized(ComponentEvent e) {
-            Rectangle r = frame.getBounds();
-            width = r.width;
-            height = r.height;
+            width = pan.getWidth();
+            height = pan.getHeight();
           }
         });
         this.addKeyListener(new KeyAdapter() {
@@ -83,6 +84,8 @@ public class Monde extends JFrame {
         this.setTitle("Ballos IV");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         t.start();
+
+
 
     }
 
