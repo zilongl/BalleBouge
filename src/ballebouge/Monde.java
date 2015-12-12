@@ -34,7 +34,7 @@ public class Monde extends JFrame {
         this.requestFocusInWindow();
         pan.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-              thread.addBalls(e);
+              thread.addBalls(e, true);
             }
             public void mouseReleased(MouseEvent e) {
               thread.stopAddingBalls();
@@ -65,7 +65,7 @@ public class Monde extends JFrame {
               }
             }
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-              thread.addBalls(currentPos);
+              thread.addBalls(currentPos, false);
             }
           }
           public void keyReleased(KeyEvent e) {

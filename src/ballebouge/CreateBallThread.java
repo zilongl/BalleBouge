@@ -39,9 +39,9 @@ public class CreateBallThread extends Thread {
         try{
           if (createOneBall)
             Thread.sleep(500);
-        } catch(Exception Ole){  
+        } catch(Exception Ole){
         }
-        this.createOneBall = false; 
+        this.createOneBall = false;
       }
       try {
         Thread.sleep(100);
@@ -49,10 +49,10 @@ public class CreateBallThread extends Thread {
       }
     }
   }
-  public void addBalls(MouseEvent e) {
+  public void addBalls(MouseEvent e, boolean createOneBall) {
     this.mouseevent = e;
     this.threadStarted = true;
-    this.createOneBall = true;
+    this.createOneBall = createOneBall;
   }
   public void addBalls() {
     this.threadStarted = true;
